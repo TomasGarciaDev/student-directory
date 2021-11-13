@@ -1,5 +1,13 @@
 @students = [] # an empty array accesible to all methods
 
+def add_students_hash 
+  if !:cohort.empty?
+    @students << {name: @name, cohort: :november}
+  elsif !:cohort.empty?
+    @students << {name: @name, cohort: cohort.to_sym}
+  end
+end
+
 def print_menu
   puts "1. Input the students"
   puts "2. Show the students"
@@ -36,14 +44,14 @@ def input_students
   puts "Please enter the name of the students"
   puts "To finish, just hit return twice"
   # get the first name
-  name = STDIN.gets.chomp
+  @name = STDIN.gets.chomp
   # while the name is not empty, repeat the code
-  while !name.empty? do
+  while !@name.empty? do
     #add the student hash to the array
-    @students << {name: name, cohort: :november}
+    add_students_hash 
     puts "Now we have #{@students.count} students"
     # get another name from the user
-    name = STDIN.gets .chomp
+    @name = STDIN.gets.chomp
   end
 end
 
@@ -83,8 +91,8 @@ end
 def load_students(filename = "students.csv")
   file = File.open(filename, "r")
   file.readlines.each do |line|
-    name, cohort = line.chomp.split(',')
-    @students << {name: name, cohort: cohort.to_sym}
+    @name, cohort = line.chomp.split(',')
+    add_students_hash 
   end
   file.close
 end
@@ -96,7 +104,7 @@ def try_load_students
   end
   if File.exists?(filename) #if it exists
     load_students(filename)
-    puts "loaded #{filename} from #{filename}"
+    puts "Loaded #{@students.count} from #{filename}"
   else # if doesn't exist
     puts "Sorry, #{filename} doesn't exist."
     exit # quit the program
