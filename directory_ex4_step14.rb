@@ -26,6 +26,7 @@ def process(selection)
   when "4"
     load_students
   when "9"
+    puts "You exited student directory"
     exit # this will cause the program to terminate
   else
     puts "I dont't know what you meant, try again"
@@ -37,6 +38,9 @@ def input_students
   puts "To finish, just hit return twice"
   # get the first name
   name = STDIN.gets.chomp
+  if name.empty?
+    puts "Exit Input students"
+  end
   # while the name is not empty, repeat the code
   while !name.empty? do
     #add the student hash to the array
@@ -44,6 +48,9 @@ def input_students
     puts "Now we have #{@students.count} students"
     # get another name from the user
     name = STDIN.gets .chomp
+    if name.empty?
+      puts "Exit Input students"
+    end
   end
 end
 
@@ -51,6 +58,7 @@ def show_students
   print_header
   print_student_list
   print_footer
+  puts "List of students printed"
 end
 
 def print_header
@@ -78,6 +86,7 @@ def save_students
     file.puts csv_line
   end 
   file.close
+  puts "New students added and saved"
 end
 
 def load_students(filename = "students.csv")
@@ -87,6 +96,7 @@ def load_students(filename = "students.csv")
     @students << {name: name, cohort: cohort.to_sym}
   end
   file.close
+  puts "Students file loeaded"
 end
 
 def try_load_students
@@ -96,7 +106,7 @@ def try_load_students
   end
   if File.exists?(filename) #if it exists
     load_students(filename)
-    puts "loaded #{filename.count} from #{filename}"
+    puts "loaded #{@students.count} from #{filename}"
   else # if doesn't exist
     puts "Sorry, #{filename} doesn't exist."
     exit # quit the program
